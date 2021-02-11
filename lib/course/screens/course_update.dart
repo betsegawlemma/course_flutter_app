@@ -84,7 +84,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
                   }),
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
-                child: ElevatedButton(
+                child: ElevatedButton.icon(
                   onPressed: () {
                     final form = _formKey.currentState;
                     if (form.validate()) {
@@ -103,7 +103,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
                           CoursesList.routeName, (route) => false);
                     }
                   },
-                  child: Text('Submit'),
+                  label: Text('SAVE'),
+                  icon: Icon(Icons.save),
                 ),
               ),
             ],
