@@ -43,33 +43,3 @@ class CourseApp extends StatelessWidget {
     );
   }
 }
-
-class CourseAppRoute {
-  static Route generateRoute(RouteSettings settings) {
-    if (settings.name == '/') {
-      return MaterialPageRoute(builder: (context) => CoursesList());
-    }
-
-    if (settings.name == AddCourse.routeName) {
-      return MaterialPageRoute(builder: (context) => AddCourse());
-    }
-
-    if (settings.name == UpdateCourse.routeName) {
-      Course course = settings.arguments;
-      return MaterialPageRoute(
-          builder: (context) => UpdateCourse(
-                course: course,
-              ));
-    }
-
-    if (settings.name == CourseDetail.routeName) {
-      Course course = settings.arguments;
-      return MaterialPageRoute(
-          builder: (context) => CourseDetail(
-                course: course,
-              ));
-    }
-
-    return MaterialPageRoute(builder: (context) => CoursesList());
-  }
-}

@@ -13,6 +13,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
   @override
   Stream<CourseState> mapEventToState(CourseEvent event) async* {
     if (event is CourseLoad) {
+      yield CourseLoading();
       try {
         final courses = await courseRepository.getCourses();
         yield CoursesLoadSuccess(courses);
@@ -36,8 +37,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         await courseRepository.updateCourse(event.course);
         final courses = await courseRepository.getCourses();
         yield CoursesLoadSuccess(courses);
-      } catch (e) {
-        print(e);
+      } catch (_) {
         yield CourseOperationFailure();
       }
     }

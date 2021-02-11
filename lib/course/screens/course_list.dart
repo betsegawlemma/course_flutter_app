@@ -35,7 +35,10 @@ class CoursesList extends StatelessWidget {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).pushNamed(AddCourse.routeName),
+        onPressed: () => Navigator.of(context).pushNamed(
+          AddUpdateCourse.routeName,
+          arguments: CourseArgument(edit: false),
+        ),
         child: Icon(Icons.add),
       ),
     );

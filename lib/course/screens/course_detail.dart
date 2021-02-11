@@ -15,9 +15,12 @@ class CourseDetail extends StatelessWidget {
         title: Text('${this.course.code}'),
         actions: [
           IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () => Navigator.of(context)
-                  .pushNamed(UpdateCourse.routeName, arguments: this.course)),
+            icon: Icon(Icons.edit),
+            onPressed: () => Navigator.of(context).pushNamed(
+              AddUpdateCourse.routeName,
+              arguments: CourseArgument(course: this.course, edit: true),
+            ),
+          ),
           SizedBox(
             width: 32,
           ),

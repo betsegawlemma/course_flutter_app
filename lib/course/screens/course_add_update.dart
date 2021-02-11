@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_network/course/course.dart';
 
-class UpdateCourse extends StatefulWidget {
-  static const routeName = 'courseUpdate';
-  final Course course;
+class AddUpdateCourse extends StatefulWidget {
+  static const routeName = 'courseAddUpdate';
+  final CourseArgument args;
 
-  UpdateCourse({@required this.course});
+  AddUpdateCourse({this.args});
   @override
-  _UpdateCourseState createState() => _UpdateCourseState();
+  _AddUpdateCourseState createState() => _AddUpdateCourseState();
 }
 
-class _UpdateCourseState extends State<UpdateCourse> {
+class _AddUpdateCourseState extends State<AddUpdateCourse> {
   final _formKey = GlobalKey<FormState>();
 
   final Map<String, dynamic> _course = {};
@@ -20,7 +20,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Update Course: ${widget.course.code}'),
+        title: Text('${widget.args.edit ? "Edit Course" : "Add New Course"}'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -29,7 +29,7 @@ class _UpdateCourseState extends State<UpdateCourse> {
           child: Column(
             children: [
               TextFormField(
-                  initialValue: widget.course.code,
+                  initialValue: widget.args.edit ? widget.args.course.code : '',
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Please enter course code';
@@ -43,7 +43,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
                     });
                   }),
               TextFormField(
-                  initialValue: widget.course.title,
+                  initialValue:
+                      widget.args.edit ? widget.args.course.title : '',
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Please enter course title';
@@ -55,7 +56,9 @@ class _UpdateCourseState extends State<UpdateCourse> {
                     this._course["title"] = value;
                   }),
               TextFormField(
-                  initialValue: widget.course.ects.toString(),
+                  initialValue: widget.args.edit
+                      ? widget.args.course.ects.toString()
+                      : '',
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Please enter course ects';
@@ -69,7 +72,8 @@ class _UpdateCourseState extends State<UpdateCourse> {
                     });
                   }),
               TextFormField(
-                  initialValue: widget.course.description,
+                  initialValue:
+                      widget.args.edit ? widget.args.course.description : '',
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Please enter course description';
@@ -89,16 +93,25 @@ class _UpdateCourseState extends State<UpdateCourse> {
                     final form = _formKey.currentState;
                     if (form.validate()) {
                       form.save();
-                      BlocProvider.of<CourseBloc>(context).add(
-                        CourseUpdate(
-                          Course(
-                              id: widget.course.id,
-                              code: this._course["code"],
-                              title: this._course["title"],
-                              ects: this._course["ects"],
-                              description: this._course["description"]),
-                        ),
-                      );
+                      final CourseEvent event = widget.args.edit
+                          ? CourseUpdate(
+                              Course(
+                                id: widget.args.course.id,
+                                code: this._course["code"],
+                                title: this._course["title"],
+                                ects: this._course["ects"],
+                                description: this._course["description"],
+                              ),
+                            )
+                          : CourseCreate(
+                              Course(
+                                code: this._course["code"],
+                                title: this._course["title"],
+                                ects: this._course["ects"],
+                                description: this._course["description"],
+                              ),
+                            );
+                      BlocProvider.of<CourseBloc>(context).add(event);
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           CoursesList.routeName, (route) => false);
                     }
