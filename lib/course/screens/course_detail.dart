@@ -25,7 +25,8 @@ class CourseDetail extends StatelessWidget {
               icon: Icon(Icons.delete),
               onPressed: () {
                 context.read<CourseBloc>().add(CourseDelete(this.course));
-                Navigator.of(context).pop();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    CoursesList.routeName, (route) => false);
               }),
         ],
       ),
@@ -42,7 +43,11 @@ class CourseDetail extends StatelessWidget {
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
-            )
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Text(this.course.description),
           ],
         ),
       ),

@@ -14,7 +14,7 @@ class CoursesList extends StatelessWidget {
       body: BlocBuilder<CourseBloc, CourseState>(
         builder: (_, state) {
           if (state is CourseOperationFailure) {
-            return Text('Could not do operation');
+            return Text('Could not do course operation');
           }
 
           if (state is CoursesLoadSuccess) {
@@ -24,6 +24,7 @@ class CoursesList extends StatelessWidget {
               itemCount: courses.length,
               itemBuilder: (_, idx) => ListTile(
                 title: Text('${courses[idx].title}'),
+                subtitle: Text('${courses[idx].code}'),
                 onTap: () => Navigator.of(context)
                     .pushNamed(CourseDetail.routeName, arguments: courses[idx]),
               ),

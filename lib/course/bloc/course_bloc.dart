@@ -16,8 +16,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
       try {
         final courses = await courseRepository.getCourses();
         yield CoursesLoadSuccess(courses);
-      } catch (e) {
-        print(e);
+      } catch (_) {
         yield CourseOperationFailure();
       }
     }
@@ -37,7 +36,8 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         await courseRepository.updateCourse(event.course);
         final courses = await courseRepository.getCourses();
         yield CoursesLoadSuccess(courses);
-      } catch (_) {
+      } catch (e) {
+        print(e);
         yield CourseOperationFailure();
       }
     }
@@ -47,8 +47,7 @@ class CourseBloc extends Bloc<CourseEvent, CourseState> {
         await courseRepository.deleteCourse(event.course.id);
         final courses = await courseRepository.getCourses();
         yield CoursesLoadSuccess(courses);
-      } catch (e) {
-        print(e);
+      } catch (_) {
         yield CourseOperationFailure();
       }
     }

@@ -55,7 +55,11 @@ class CourseAppRoute {
     }
 
     if (settings.name == UpdateCourse.routeName) {
-      return MaterialPageRoute(builder: (context) => UpdateCourse());
+      Course course = settings.arguments;
+      return MaterialPageRoute(
+          builder: (context) => UpdateCourse(
+                course: course,
+              ));
     }
 
     if (settings.name == CourseDetail.routeName) {
